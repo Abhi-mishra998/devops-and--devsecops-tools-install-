@@ -1,0 +1,91 @@
+
+# Minikube Local Kubernetes Setup (Windows)
+
+This repository demonstrates setting up **Minikube** on Windows with VirtualBox, creating namespaces, and verifying the cluster.  
+
+---
+
+## Prerequisites
+- Windows 10/11 with **Virtualization enabled**  
+- **VirtualBox** installed  
+- **PowerShell** (Admin) access  
+- **Internet connection**  
+
+---
+
+## Step 1: Download & Install Minikube
+
+1. Create a folder for Minikube:
+```powershell
+New-Item -Path 'C:\' -Name 'minikube' -ItemType Directory -Force
+````
+
+2. Download Minikube executable:
+
+```powershell
+Invoke-WebRequest -OutFile 'C:\minikube\minikube.exe' -Uri 'https://github.com/kubernetes/minikube/releases/latest/download/minikube-windows-amd64.exe' -UseBasicParsing
+```
+
+3. Add Minikube to PATH (Admin PowerShell):
+
+```powershell
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\minikube", [EnvironmentVariableTarget]::Machine)
+```
+
+4. Close and reopen PowerShell, then verify installation:
+
+```powershell
+minikube version
+```
+
+---
+
+## Step 2: Start Minikube Cluster
+
+```powershell
+minikube start --driver=virtualbox
+minikube status
+```
+
+---
+
+## Step 3: Install kubectl
+
+```powershell
+winget install Kubernetes.kubectl
+kubectl version --client
+```
+
+---
+
+## Step 4: Test Cluster
+
+```powershell
+kubectl get nodes
+```
+
+You should see the `minikube` node in `Ready` state.
+
+---
+
+## Step 5: Create Namespaces
+
+```powershell
+kubectl create namespace dev
+kubectl create namespace test
+kubectl get namespaces
+```
+
+---
+
+
+
+* `minikube start` output
+* `kubectl get nodes`
+* `kubectl get namespaces`
+
+---
+
+
+ 
+
